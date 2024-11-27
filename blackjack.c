@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 #define DECK_SIZE 13
 
 
@@ -17,8 +18,9 @@ float winMultiplier();//calculate winning pot
 int betWin(int userBet, float multiplier);//calculate winning amount
 void winPoints(int winAmount); //updates points if win
 void losePoints(int userBet);//updates points if lose
+void clearScreen(); //to clear console
 
-//haha johnathon
+
 void clearScreen() {
 #ifdef _WIN32
     system("cls"); // Windows
@@ -213,17 +215,21 @@ int main() {
 
     do {
         blackjackGame();
+
+        if (userPoints <= 0) {
+
+            printf("Your total points : %d", userPoints);
+            printf("\n--------------------------------------------------\n");
+            printf("Game over, You're out of points! ");
+            printf("\n--------------------------------------------------\n");
+            break;
+        }
         printf("\nWould you like to play another round? Type 'y' or 'n': ");
         scanf(" %c", &playAgain);
+        clearScreen();
     } while (playAgain == 'y' && userPoints > 0);
     
-    if (userPoints <= 0) {
-        printf("\n--------------------------------------------------\n");
-        printf("Game over, Youre out of points! ");
-        printf("\n--------------------------------------------------\n");
-    }
     
-    clearScreen();
     printf("\nExiting game... Goodbye!\n");
     return 0;
 }
