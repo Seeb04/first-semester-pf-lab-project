@@ -18,7 +18,7 @@ int betWin(int userBet, float multiplier);//calculate winning amount
 void winPoints(int winAmount); //updates points if win
 void losePoints(int userBet);//updates points if lose
 
-
+//haha johnathon
 void clearScreen() {
 #ifdef _WIN32
     system("cls"); // Windows
