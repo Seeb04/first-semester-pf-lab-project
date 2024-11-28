@@ -111,7 +111,8 @@ void blackjackGame() {
     float multiplier = winMultiplier();
     
     printf("Your current points : %d\n", userPoints);
-    printf("Enter the amount you would like to bet : ");
+
+    printf("Enter bet : ");
     scanf("%d", &userBet);
 
     if (userBet < 0 || userBet > userPoints) {
@@ -145,7 +146,7 @@ void blackjackGame() {
         if (userTotal == 21) {
             printf("\n--------------------------------------------------\n");
             printf("\nYou won with a Blackjack!\n");
-            winPoints(winAmount);
+            winPoints((winAmount*1.5));
         } else {
             printf("\n--------------------------------------------------\n");
             printf("\nComputer has a Blackjack, You lost!\n");
@@ -170,7 +171,7 @@ void blackjackGame() {
             if (userTotal > 21) {
                 printf("\n--------------------------------------------------\n");
                 printf("You went over 21. You lost!\n");
-                printf("--------------------------------------------------\n");
+                // printf("--------------------------------------------------\n");
                 losePoints(userBet);
                 return;
             }
@@ -196,16 +197,16 @@ void blackjackGame() {
         printf("\n--------------------------------------------------\n");
         printf("Your score is higher. You won!\n");
         winPoints(winAmount);
-        printf("\n--------------------------------------------------\n");
+        printf("--------------------------------------------------\n");
     } else if (compTotal > userTotal) {
         printf("\n--------------------------------------------------\n");
         printf("Computer's score is higher. You lost.\n");
         losePoints(userBet);
-        printf("\n--------------------------------------------------\n");
+        printf("--------------------------------------------------\n");
     } else {
         printf("\n--------------------------------------------------\n");
         printf("It's a draw.");
-        losePoints(userBet);
+        losePoints((userBet/2));
         printf("--------------------------------------------------\n");
     }
 }
@@ -217,10 +218,9 @@ int main() {
         blackjackGame();
 
         if (userPoints <= 0) {
-
-            printf("Your total points : %d", userPoints);
+            // printf("Your total points : %d", userPoints);
             printf("\n--------------------------------------------------\n");
-            printf("Game over, You're out of points! ");
+            printf("GAME OVER, YOU'RE OUT OF POINTS!");
             printf("\n--------------------------------------------------\n");
             break;
         }
@@ -229,7 +229,9 @@ int main() {
         clearScreen();
     } while (playAgain == 'y' && userPoints > 0);
     
-    
-    printf("\nExiting game... Goodbye!\n");
+    if (playAgain == 'n') {
+        printf("\nExiting game... Goodbye!\n");
+    }
+
     return 0;
 }
