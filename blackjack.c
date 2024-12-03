@@ -102,7 +102,7 @@ void blackjackGame() {
     int userCards[10], compCards[10]; //used to store cards of user and computer
     int userCardCount = 0, compCardCount = 0; //used to keep count for the amount of cards in hand for each player
     int userTotal = 0, compTotal = 0;
-    int userBet, invalidBet = 0;
+    int userBet, invalidChoice = 0;
     char userChoice;
 
     // Initialize the random number generator
@@ -115,22 +115,22 @@ void blackjackGame() {
     printf("Enter bet : ");
     scanf("%d", &userBet);
 
+    //Prompts user to enter bet and doesn't continue if it's incorrect
     do {
         if (userBet < 0 || userBet > userPoints) {
-            invalidBet = 1;
+            invalidChoice = 1;
             printf("\n--------------------------------------------------\n");
             printf("Insufficient points!");
-            // printf("\n\nYou have %d Points", userPoints);
             printf("\n--------------------------------------------------\n");
             printf("\nEnter Correct bet : ");
             scanf("%d", &userBet);
         } else {
-            invalidBet = 0;
+            invalidChoice = 0;
             printf("\n--------------------------------------------------\n");
             printf("Points bet : %d", userBet);
             printf("\n--------------------------------------------------\n");
         }
-    } while (invalidBet == 1);
+    } while (invalidChoice == 1);
     
     int winAmount = betWin(userBet, multiplier);
 
