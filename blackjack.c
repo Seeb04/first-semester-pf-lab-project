@@ -155,8 +155,9 @@ void blackjackGame() {
             winPoints((winAmount*1.5));
         } else {
             printf("\n--------------------------------------------------\n");
-            printf("\nComputer has a Blackjack, You lost!\n");
+            printf("Computer has a Blackjack, You lost!\n");
             losePoints(userBet);
+            printf("--------------------------------------------------\n");
         }
         return;
     }
@@ -246,7 +247,7 @@ int main() {
     } while (playAgain == 'y' && userPoints > 0);
 
     if (playAgain == 'n') { //only displays if player chooses to exit the game
-        printf("\nExiting game... Goodbye!\n");
+        printf("Exiting game... Goodbye!\n");
     }
 
     return 0;
