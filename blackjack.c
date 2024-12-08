@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include <unistd.h>
 
 #define DECK_SIZE 13
 
@@ -20,7 +20,12 @@ void winPoints(int winAmount); //updates points if win
 void losePoints(int userBet);//updates points if lose
 void clearScreen(); //to clear console
 void displayLogo(); //displays logo
+void delay();
 
+
+void delay() {
+    usleep(790000);
+}
 
 void displayLogo() {
     const char *logo = 
@@ -127,7 +132,7 @@ void blackjackGame() {
     srand(time(NULL));
 
     float multiplier = winMultiplier();
-    
+    delay();
     printf("Your current points : %d\n", userPoints);
 
     printf("Enter bet : ");
@@ -139,7 +144,7 @@ void blackjackGame() {
             invalidChoice = 1;
             printf("\n--------------------------------------------------\n");
             printf("Insufficient points!\n");
-            printf("You have have %d points!", userPoints);
+            printf("You have %d points!", userPoints);
             printf("\n--------------------------------------------------\n");
             printf("\nEnter bet : ");
             scanf("%d", &userBet);
@@ -150,6 +155,7 @@ void blackjackGame() {
             printf("\n--------------------------------------------------\n");
         }
     } while (invalidChoice == 1);
+    delay(); //adding delay so that everything does not show at once
     
     int winAmount = betWin(userBet, multiplier);
 
@@ -164,14 +170,16 @@ void blackjackGame() {
 
     printf("\nYour cards: ");
     printCards("User", userCards, userCardCount, userTotal);
+    delay();
     printf("\nComputer's first card: %d\n", compCards[0]);
-
+    delay();
     // Check for immediate Blackjack
     if (checkBlackjack(userTotal) || checkBlackjack(compTotal)) {
         if (userTotal == 21) {
             printf("\n--------------------------------------------------\n");
             printf("\nYou won with a Blackjack!\n");
             winPoints((winAmount*1.5));
+            printf("--------------------------------------------------\n");
         } else {
             printf("\n--------------------------------------------------\n");
             printf("Computer has a Blackjack, You lost!\n");
@@ -188,7 +196,9 @@ void blackjackGame() {
         printf("Would you like to hit or stand? \nType 'h' or 's': ");
         scanf(" %c", &userChoice);
         printf("--------------------------------------------------\n");
-
+        
+        delay();
+        
         if (userChoice == 'h') {
             userCards[userCardCount++] = drawCard(); 
             userTotal = calculateTotal(userCards, userCardCount);
@@ -212,7 +222,7 @@ void blackjackGame() {
 
     printCards("User", userCards, userCardCount, userTotal);
     printCards("Computer", compCards, compCardCount, compTotal);
-
+    
     // Determining the winner
     if (compTotal > 21) {
         printf("\n--------------------------------------------------\n");
@@ -235,24 +245,28 @@ void blackjackGame() {
         losePoints((userBet/2)); //player loses only half the points
         printf("--------------------------------------------------\n");
     }
+
 }
 
 int main() {
     char playAgain;
 
     displayLogo();
-
+    delay();
+    
     do {
         int playerLost = 0; //used for case checking
         blackjackGame();
-
+        delay();
         if (userPoints <= 0) {
             printf("\n--------------------------------------------------\n");
             printf("GAME OVER, YOU'RE OUT OF POINTS!");
             printf("\n--------------------------------------------------\n");
             playerLost = 1;
+            delay();
         }
-        
+
+
         if (playerLost != 1) { //implies that game is not over yet
             printf("\nWould you like to play another round? \nType 'y' for yes or 'n' for no : ");
             scanf(" %c", &playAgain);
@@ -291,7 +305,8 @@ int main() {
 
     } while (playAgain == 'y' && userPoints > 0);
 
-    if (playAgain == 'n') { //only displays if player chooses to exit the game
+    if (playAgain == 'n') { 
+        delay();//only displays if player chooses to exit the game
         printf("Game Exited... Thank you for playing!\n");
     }
 
