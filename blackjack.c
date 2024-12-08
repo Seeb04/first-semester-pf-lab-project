@@ -185,7 +185,7 @@ void blackjackGame() {
     do {
         //Prompting user whether they would like to hit or stand
         printf("\n--------------------------------------------------\n");
-        printf("Would you like to hit or stand? Type 'h' or 's': ");
+        printf("Would you like to hit or stand? \nType 'h' or 's': ");
         scanf(" %c", &userChoice);
         printf("--------------------------------------------------\n");
 
@@ -254,7 +254,7 @@ int main() {
         }
         
         if (playerLost != 1) { //implies that game is not over yet
-            printf("\nWould you like to play another round? Type 'y' for yes or 'n' for no : ");
+            printf("\nWould you like to play another round? \nType 'y' for yes or 'n' for no : ");
             scanf(" %c", &playAgain);
 
             do {
@@ -272,7 +272,7 @@ int main() {
 
         } else { //implies that the game is over and resets the user's points to 1000
             userPoints = 1000;
-            printf("\nWould you like to play again? Type 'y' for yes or 'n' for no : "); //display a more appropriate message
+            printf("\nWould you like to play again? \nType 'y' for yes or 'n' for no : "); //display a more appropriate message
             scanf(" %c", &playAgain);
             do {
                 if (playAgain == 'y' || playAgain == 'n') {
