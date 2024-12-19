@@ -135,25 +135,35 @@ void blackjackGame() {
     delay();
     printf("Your current points : %d\n", userPoints);
 
-    printf("Enter bet : ");
-    scanf("%d", &userBet);
 
     //Prompts user to enter bet and doesn't continue if it's incorrect
     do {
-        if (userBet < 0 || userBet > userPoints) {
+
+        printf("Enter bet : ");
+        if (scanf("%d", &userBet) != 1) {
+            invalidChoice = 1;
+
+            while (getchar() != '\n');  // Discards the rest of the input
+            
+            printf("\n--------------------------------------------------\n");
+            printf("\nInvalid input!\nPlease enter a valid number\n");
+            printf("\n--------------------------------------------------\n");
+
+        }else if(userBet < 0 || userBet > userPoints ) {
             invalidChoice = 1;
             printf("\n--------------------------------------------------\n");
-            printf("Insufficient points!\n");
-            printf("You have %d points!", userPoints);
+            printf("\nInsufficient points!\n");
+            printf("You have %d points!\n", userPoints);
             printf("\n--------------------------------------------------\n");
-            printf("\nEnter bet : ");
-            scanf("%d", &userBet);
+            // printf("\nEnter bet : ");
+            // scanf("%d", &userBet);
         } else {
             invalidChoice = 0;
             printf("\n--------------------------------------------------\n");
             printf("Points bet : %d", userBet);
             printf("\n--------------------------------------------------\n");
         }
+
     } while (invalidChoice == 1);
     delay(); //adding delay so that everything does not show at once
     
@@ -191,28 +201,46 @@ void blackjackGame() {
 
     // User's turn
     do {
-        //Prompting user whether they would like to hit or stand
+        // Prompting the user whether they would like to hit or stand
         printf("\n--------------------------------------------------\n");
         printf("Would you like to hit or stand? \nType 'h' or 's': ");
-        scanf(" %c", &userChoice);
-        printf("--------------------------------------------------\n");
-        
-        delay();
-        
+
+        // Read input and check if it's valid
+        if (scanf(" %c", &userChoice) != 1) {
+            // Invalid input (e.g., non-character or empty input)
+            invalidChoice = 1;
+            while (getchar() != '\n');  // Discard invalid input
+            printf("\nInvalid input! Please enter 'h' or 's'.\n");
+            continue;  // Re-prompt the user
+        }
+
+        // Check if the character is valid
+        if (userChoice != 'h' && userChoice != 's') {
+            invalidChoice = 1;
+            printf("\nInvalid choice! Please enter 'h' or 's'.\n");
+            continue;  // Re-prompt the user
+        }
+
+        // Handle valid choices
         if (userChoice == 'h') {
-            userCards[userCardCount++] = drawCard(); 
+            delay();
+            invalidChoice = 0;
+            userCards[userCardCount++] = drawCard();
             userTotal = calculateTotal(userCards, userCardCount);
             printCards("User", userCards, userCardCount, userTotal);
 
             if (userTotal > 21) {
+                delay();
                 printf("\n--------------------------------------------------\n");
                 printf("You went over 21. You lost!\n");
                 losePoints(userBet);
                 printf("--------------------------------------------------\n");
-                return;
+                return;  // End the game as the player has lost
             }
         }
-    } while (userChoice == 'h');
+
+    } while (userChoice == 'h' && invalidChoice == 0);
+
 
     // Computer's turn
     while (compTotal <= 16) {
@@ -222,6 +250,7 @@ void blackjackGame() {
 
     printCards("User", userCards, userCardCount, userTotal);
     printCards("Computer", compCards, compCardCount, compTotal);
+    
     
     // Determining the winner
     if (compTotal > 21) {
@@ -242,7 +271,7 @@ void blackjackGame() {
     } else {
         printf("\n--------------------------------------------------\n");
         printf("It's a draw.\n");
-        losePoints((userBet/2)); //player loses only half the points
+        // losePoints((userBet));
         printf("--------------------------------------------------\n");
     }
 
